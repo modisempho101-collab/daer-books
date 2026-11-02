@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} - Daer Books{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-4">
+        <div class="display-4 text-success">✓</div>
+        <h2>Thank you for your order!</h2>
+        <p class="text-muted">Order #{{ order.id }} has been placed successfully.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <span>Order Details</span>
+                    <span class="badge bg-success">{{ order.status }}</span>
+                </div>
+                <div class="card-body">
+                    <p><strong>Date:</strong> {{ order.order_date.strftime('%d %B %Y, %H:%M') }}</p>
+                    <p><strong>Shipping Address:</strong><br>{{ order.shipping_address }}</p>
+                    {% if order.discount_code_used %}
+                    <p><strong>Discount Code:</strong> {{ order.discount_code_used }}</p>
+                    {% endif %}
+
+                    <table class="table table-sm mt-3">
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items %}
+                            <tr>
+                                <td>{{ item.product.title }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>R{{ "%.2f"|format(item.price) }}</td>
+                                <td>R{{ "%.2f"|format(item.price * item.quantity) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="text-end">
+                        <p class="mb-1">Subtotal: R{{ "%.2f"|format(order.subtotal) }}</p>
+                        {% if order.discount_amount > 0 %}
+                        <p class="mb-1 text-success">Discount: - R{{ "%.2f"|format(order.discount_amount) }}</p>
+                        {% endif %}
+                        <p class="fs-5 fw-bold">Total: R{{ "%.2f"|format(order.total) }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('my_orders') }}" class="btn btn-outline-primary">View My Orders</a>
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
