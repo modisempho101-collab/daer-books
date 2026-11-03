@@ -16,7 +16,7 @@
                                       placeholder="Street address, suburb, city, postal code"></textarea>
                         </div>
                         <button type="submit" class="btn btn-success btn-lg">
-                            Place Order · R{{ "%.2f"|format(cart.total) }}
+                            Place Order · R{{ "%.2f"|format(cart['total']) }}
                         </button>
                         <a href="{{ url_for('view_cart') }}" class="btn btn-outline-secondary btn-lg ms-2">Back to Cart</a>
                     </form>
@@ -27,7 +27,7 @@
             <div class="card">
                 <div class="card-header">Order Summary</div>
                 <div class="card-body">
-                    {% for item in cart.items %}
+                    {% for item in cart['items'] %}
                     <div class="d-flex justify-content-between small mb-2">
                         <span>{{ item.product.title }} × {{ item.quantity }}</span>
                         <span>R{{ "%.2f"|format(item.line_total) }}</span>
@@ -36,17 +36,17 @@
                     <hr>
                     <div class="d-flex justify-content-between mb-1">
                         <span>Subtotal</span>
-                        <span>R{{ "%.2f"|format(cart.subtotal) }}</span>
+                        <span>R{{ "%.2f"|format(cart['subtotal']) }}</span>
                     </div>
-                    {% if cart.discount_amount > 0 %}
+                    {% if cart['discount_amount'] > 0 %}
                     <div class="d-flex justify-content-between mb-1 text-success">
                         <span>Discount</span>
-                        <span>- R{{ "%.2f"|format(cart.discount_amount) }}</span>
+                        <span>- R{{ "%.2f"|format(cart['discount_amount']) }}</span>
                     </div>
                     {% endif %}
                     <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
                         <span>Total</span>
-                        <span>R{{ "%.2f"|format(cart.total) }}</span>
+                        <span>R{{ "%.2f"|format(cart['total']) }}</span>
                     </div>
                 </div>
             </div>
